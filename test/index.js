@@ -1,4 +1,6 @@
 require('babel-core/register'); 
 require('babel-polyfill'); 
-require('./testcounter');
-require('./testmutation');
+// require('./testcounter');
+// require('./testarraymutation');
+// require('./testobjectmutation');
+require('./testreducertodo');

@@ -74,4 +74,4 @@ testadditem();
 testremoveitem();
 testchangeitem();
 
-console.log("all test passed");
+console.log("all test array mutation passed");

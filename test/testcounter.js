@@ -9,4 +9,4 @@ expect(
     counter(2, {"type" : "INCREMENT"})
 ).toEqual(3);
 
-console.log("test passed");
+console.log("test counter passed");
