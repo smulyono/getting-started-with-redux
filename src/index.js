@@ -1,29 +1,27 @@
-import { createStore }  from 'redux';
-import reducer from './reducer';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Counter from './component/counter';
+import todoAppReducer from './reducer/todoapp';
+import {createStore} from 'redux';
+import TodoApp from './component/todoApp';
 
-const store = createStore(reducer);
+const store = createStore(todoAppReducer);
 
 const render = () => {
     ReactDOM.render(
-        <Counter 
-            value={store.getState()}
-            onIncrement={() => {
+        <TodoApp 
+            addTodoEvent={(input) => {
                 store.dispatch({
-                    type: "INCREMENT"
+                    ...input,
+                    type : "ADD_TODO"
                 })
             }}
-            onDecrement={() => {
-                store.dispatch({
-                    type: "DECREMENT"
-                })
-            }}
-            />, 
-        document.getElementById("root")
-    )    
+            {...store.getState()}
+            />
+        ,
+        document.getElementById('root')
+    );
 }
+
 render();
 store.subscribe(render);
 
