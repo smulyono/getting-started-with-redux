@@ -15,6 +15,12 @@ const render = () => {
                     type : "ADD_TODO"
                 })
             }}
+            toggleTodoEvent={(input) => {
+                store.dispatch({
+                    ...input,
+                    type : "TOGGLE_TODO"
+                })
+            }}
             {...store.getState()}
             />
         ,

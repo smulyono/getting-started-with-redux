@@ -22,18 +22,22 @@ const todo = (state={}, action) => {
 
 // reducer to manipulate the todo
 const todos = (state=[],action) => {
-    switch (action.type) {
-        case 'ADD_TODO' : 
-            return [
-                ...state,
-                todo(undefined, action)
-            ]
-        case 'TOGGLE_TODO' : 
-            return state.map((item) => {
-                return todo(item, action)
-            });
-        default : 
-            return state;
+    if (action.type && action.text) {
+        switch (action.type) {
+            case 'ADD_TODO' : 
+                return [
+                    ...state,
+                    todo(undefined, action)
+                ]
+            case 'TOGGLE_TODO' : 
+                return state.map((item) => {
+                    return todo(item, action)
+                });
+            default : 
+                return state;
+        }
+    } else {
+        return state;
     }
 };
 

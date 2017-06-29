@@ -4,10 +4,10 @@ import {Component} from 'react';
 let todoCounter = 0;
 
 class TodoApp extends Component {
-
     render() {
         const {
             addTodoEvent,
+            toggleTodoEvent,
             todos
         } = this.props;
         return (
@@ -23,6 +23,8 @@ class TodoApp extends Component {
                             id : todoCounter
                         });
                         todoCounter++;
+                        this.inputText.focus();
+                        this.inputText.value='';
                     }} >
                     Add Todo
                 </button>
@@ -30,6 +32,15 @@ class TodoApp extends Component {
                 {todos.map( (todo) => {
                     return (
                         <li key={todo.id}
+                            onClick={() => {
+                                toggleTodoEvent(todo)
+                            }}
+                            style= {{
+                                textDecoration : todo.completed ? "line-through" : "none",
+                                fontWeight : todo.completed ? "normal" : "bold",
+                                color : todo.completed ? 'red' : 'black',
+                                cursor : "pointer",
+                            }}
                             > 
                             {todo.text} 
                         </li>
