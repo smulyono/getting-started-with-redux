@@ -21,6 +21,13 @@ const render = () => {
                     type : "TOGGLE_TODO"
                 })
             }}
+            toggleVisibility={(input) => {
+                console.info("visibility");
+                store.dispatch({
+                    ...input,
+                    type : "SET_FILTER"
+                })
+            }}
             {...store.getState()}
             />
         ,
