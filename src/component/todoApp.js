@@ -11,7 +11,6 @@ class TodoApp extends Component {
     }
 
     renderTodoBasedOnVisibility(todos, visibility) {
-        console.info('Receiving ', todos, visibility);
         var outputTodo = [];
         todos.map( (todo) => {
             switch (visibility) {
@@ -38,6 +37,7 @@ class TodoApp extends Component {
         const {
             addTodoEvent,
             toggleTodoEvent,
+            removeTodoEvent,
             toggleVisibility,
             todos,
             visibility
@@ -66,17 +66,44 @@ class TodoApp extends Component {
                 {drawTodos.map( (todo) => {
                     return (
                         <li key={todo.id}
-                            onClick={() => {
-                                toggleTodoEvent(todo)
-                            }}
                             style= {{
-                                textDecoration : todo.completed ? "line-through" : "none",
-                                fontWeight : todo.completed ? "normal" : "bold",
-                                color : todo.completed ? 'red' : 'black',
                                 cursor : "pointer",
                             }}
                             > 
+                            <span 
+                            onClick={() => {
+                                toggleTodoEvent(todo)
+                            }}                            
+                            style={{
+                                textDecoration : todo.completed ? "line-through" : "none",
+                                fontWeight : todo.completed ? "normal" : "bold",
+                                color : todo.completed ? 'red' : 'black',
+                            }}>
                             {todo.text} 
+                            </span>
+                            {todo.completed ? 
+                                <button 
+                                    style={{
+                                        borderStyle:"none",
+                                        backgroundColor:"transparent",
+                                        cursor: "pointer",
+                                        textDecoration: "underline",
+                                        fontWeight:"bold",
+                                        color: "red",
+                                        outline:"none"
+                                    }}
+                                    onClick={ () => {
+                                        removeTodoEvent({
+                                            id : todo.id,
+                                            text : todo.text
+                                        })
+                                    }}
+                                >
+                                    Remove
+                                </button> 
+                                : 
+                                ""  
+                            }
                         </li>
                     )
                 })}

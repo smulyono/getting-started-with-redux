@@ -21,6 +21,12 @@ const render = () => {
                     type : "TOGGLE_TODO"
                 })
             }}
+            removeTodoEvent={(input) => {
+                store.dispatch( {
+                    ...input,
+                    type : "REMOVE_TODO"
+                })
+            }}
             toggleVisibility={(input) => {
                 console.info("visibility");
                 store.dispatch({

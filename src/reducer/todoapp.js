@@ -33,6 +33,15 @@ const todos = (state=[],action) => {
                 return state.map((item) => {
                     return todo(item, action)
                 });
+            case 'REMOVE_TODO' : 
+                let updatedTodo = [];
+                state.map(item => {
+                    if (item.id !== action.id) {
+                        updatedTodo.push(item);
+                    }
+                    return item;
+                });
+                return updatedTodo;
             default : 
                 return state;
         }
