@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+
+        "type": "chrome",
+        "request": "launch",
+        "port" : 9223,
+        "runtimeExecutable": "/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary",
+        "runtimeArgs": [
+            "--new-window",
+            "--remote-debugging-port=9223"
+        ],     
+        "userDataDir": "${workspaceRoot}/.vscode/chrome",   
+        "name": "Launch Chrome",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceRoot}/src"
+    },
+    {
+        "type": "chrome",
+        "request": "attach",
+        "name": "Attach to Chrome",
+        "port": 9222,
+        "webRoot": "${workspaceRoot}"
+    }
+    ]
+}
