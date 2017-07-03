@@ -1,36 +1,38 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-class FilterDisplay extends React.Component {
-    render() {
-        const {
-            display,
-            filtertype,
-            clickEventCallback,
-            visibility
-        } = this.props;
-        return (
-            <button 
-                onClick={() => {
-                    if (visibility !== filtertype) {
-                        clickEventCallback({
-                            filter : filtertype
-                        });
-                    }
-                }}
-                style={{
-                    borderStyle:"none",
-                    backgroundColor:"transparent",
-                    cursor: visibility === filtertype ? "not-allowed" : "pointer",
-                    textDecoration: visibility === filtertype ? "none" : "underline",
-                    fontWeight:"bold",
-                    color: visibility === filtertype ? "black" : "blue",
-                    outline:"none",
-                }}
-                >
-                {display}
-            </button>
-        )
-    }
-} 
+const FilterDisplay = ({
+    display,
+    filtertype
+}, { store }) => {
+    const {visibility} = store.getState();
+    return (
+        <button
+            onClick={() => {
+                if (visibility !== filtertype) {
+                    store.dispatch({
+                        filter: filtertype,
+                        type : "SET_FILTER"
+                    })
+                }
+            }}
+            style={{
+                borderStyle: "none",
+                backgroundColor: "transparent",
+                cursor: visibility === filtertype ? "not-allowed" : "pointer",
+                textDecoration: visibility === filtertype ? "none" : "underline",
+                fontWeight: "bold",
+                color: visibility === filtertype ? "black" : "blue",
+                outline: "none",
+            }}
+        >
+            {display}
+        </button>
+    );
+}
+
+FilterDisplay.contextTypes = {
+    store : PropTypes.object
+}
 
 export default FilterDisplay;

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
 import FilterDisplay from './filterDisplay';
+import PropTypes from 'prop-types';
 
 let todoCounter = 0;
 
@@ -8,6 +9,15 @@ class TodoApp extends Component {
     constructor(props) {
         super(props);
         this.renderTodoBasedOnVisibility = this.renderTodoBasedOnVisibility.bind(this);
+    }
+
+    componentDidMount() {
+        const { store } = this.context;
+        this.unsubscribe = store.subscribe(() => this.forceUpdate());
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     renderTodoBasedOnVisibility(todos, visibility) {
@@ -34,14 +44,8 @@ class TodoApp extends Component {
     }
 
     render() {
-        const {
-            addTodoEvent,
-            toggleTodoEvent,
-            removeTodoEvent,
-            toggleVisibility,
-            todos,
-            visibility
-        } = this.props;
+        const { store } = this.context;
+        const {todos, visibility}  = store.getState();
         // determine todos to display
         const drawTodos = this.renderTodoBasedOnVisibility(todos, visibility);
         return (
@@ -52,14 +56,15 @@ class TodoApp extends Component {
                         this.inputText=node
                     }}/>
                 <button onClick={() => {
-                        addTodoEvent({
-                            text : this.inputText.value,
-                            id : todoCounter
-                        });
-                        todoCounter++;
-                        this.inputText.focus();
-                        this.inputText.value='';
-                    }} >
+                    store.dispatch({
+                        text : this.inputText.value,
+                        id : todoCounter,
+                        type : "ADD_TODO"
+                    })
+                    todoCounter++;
+                    this.inputText.focus();
+                    this.inputText.value='';
+                }} >
                     Add Todo
                 </button>
                 <ul>
@@ -72,7 +77,10 @@ class TodoApp extends Component {
                             > 
                             <span 
                             onClick={() => {
-                                toggleTodoEvent(todo)
+                                store.dispatch({
+                                    ...todo,
+                                    type : "TOGGLE_TODO"
+                                })
                             }}                            
                             style={{
                                 textDecoration : todo.completed ? "line-through" : "none",
@@ -93,10 +101,11 @@ class TodoApp extends Component {
                                         outline:"none"
                                     }}
                                     onClick={ () => {
-                                        removeTodoEvent({
+                                        store.dispatch( {
                                             id : todo.id,
-                                            text : todo.text
-                                        })
+                                            text : todo.text,
+                                            type : "REMOVE_TODO"
+                                        });
                                     }}
                                 >
                                     Remove
@@ -112,24 +121,22 @@ class TodoApp extends Component {
                 <FilterDisplay 
                     display="All"
                     filtertype="all"
-                    clickEventCallback={toggleVisibility}
-                    visibility={visibility}
                 />
                 <FilterDisplay 
                     display="Completed"
                     filtertype="completed"
-                    clickEventCallback={toggleVisibility}
-                    visibility={visibility}
                 />
                 <FilterDisplay 
                     display="In Progress"
                     filtertype="progress"
-                    clickEventCallback={toggleVisibility}
-                    visibility={visibility}
                 />
             </div>
         );
     };
 }
+
+TodoApp.contextTypes = {
+    store : PropTypes.object
+};
 
 export default TodoApp;
