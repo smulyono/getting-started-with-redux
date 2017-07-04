@@ -10,6 +10,7 @@ const HeaderItem = ({
     let inputText;
     return (
         <div>
+            <label>What to-do </label>
             <input 
                 type="text"
                 ref ={ node => {
